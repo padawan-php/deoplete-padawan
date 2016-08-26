@@ -32,7 +32,8 @@ Plugin 'pbogut/deoplete-padawan'
 ## Configuration
 
 Plugin requires no configuration, however, it is possible to change some options.
-Comming soon:trade:
+
+Comming soon(tm)
 
 ## Todo
 - [ ] Update configuration section
@@ -42,6 +43,12 @@ Comming soon:trade:
 ## Contribution
 
 Always welcome.
+
+## Credits
+
+Plugin is based on [padawan.vim](https://github.com/mkusher/padawan.vim),
+[deoplete-jedi](https://github.com/zchee/deoplete-jedi) and
+[deoplete-go](https://github.com/zchee/deoplete-go).
 
 ## License
 
