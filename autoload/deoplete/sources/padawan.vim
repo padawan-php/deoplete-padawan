@@ -7,7 +7,7 @@ endif
 let g:deoplete#sources#padawan#loaded = 1
 
 let lib_path = expand('<sfile>:p:h:h:h:h') . '/rplugin/python3/deoplete/sources/deoplete_padawan'
-echo lib_path
+
 let g:deoplete#sources#padawan#server_addr =
       \ get(g:, 'deoplete#sources#padawan#server_addr', 'http://127.0.0.1:15155')
 let g:deoplete#sources#padawan#server_command =
