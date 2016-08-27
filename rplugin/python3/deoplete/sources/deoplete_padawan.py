@@ -9,6 +9,7 @@
 from .base import Base
 from os import path
 from urllib.error import URLError
+from socket import timeout
 import sys
 import re
 
@@ -95,6 +96,8 @@ class Source(Base):
                 self.vim.command("echo 'Padawan.php server started automatically'")
             else:
                 self.vim.command("echo 'Padawan.php is not running'")
+        except timeout:
+                self.vim.command("echo 'Connection to padawan.php timed out'")
         # any other error can bouble to deoplete
         return False
 
