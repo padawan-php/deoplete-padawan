@@ -39,7 +39,7 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        pattern = r'\w*$'
+        pattern = r'[\'"]\w*|\w*$'
         m = re.search(pattern, context['input'])
         return m.start() if m else -1
 
