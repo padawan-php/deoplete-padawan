@@ -17,8 +17,8 @@ let g:deoplete#sources#padawan#log_file =
 
 let g:deoplete#sources#padawan#server_autostart =
       \ get(g:, 'deoplete#sources#padawan#server_autostart', 1)
-python3 << PYTHON
 
+python3 << PYTHON
 import vim
 import sys
 import os
