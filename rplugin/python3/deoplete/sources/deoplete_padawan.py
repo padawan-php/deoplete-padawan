@@ -52,7 +52,7 @@ class Server:
         response = urlopen(
             addr,
             quote_plus(data).encode('utf8'),
-            1000
+            3 # can be high as its async call after all
         )
         data = json.loads(response.read().decode('utf8'))
 
