@@ -78,7 +78,11 @@ class Source(Base):
         try:
             return self.server.sendRequest(command, params, data)
         except URLError:
-            self.vim.command("echo 'Padawan.php is not running'")
+            if self.vim.eval('deoplete#sources#padawan#server_autostart') == 1:
+                self.server.start()
+                self.vim.command("echo 'Padawan.php server started automatically'")
+            else:
+                self.vim.command("echo 'Padawan.php is not running'")
         # any other error can bouble to deoplete
         return False
 

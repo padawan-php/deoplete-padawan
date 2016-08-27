@@ -15,6 +15,8 @@ let g:deoplete#sources#padawan#server_command =
 let g:deoplete#sources#padawan#log_file =
       \ get(g:, 'deoplete#sources#padawan#log_file', '/tmp/padawan-server.log')
 
+let g:deoplete#sources#padawan#server_autostart =
+      \ get(g:, 'deoplete#sources#padawan#server_autostart', 1)
 python3 << PYTHON
 
 import vim
