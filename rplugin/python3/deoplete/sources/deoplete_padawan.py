@@ -26,7 +26,7 @@ class Source(Base):
         self.mark = '[padawan]'
         self.filetypes = ['php']
         self.rank = 500
-        self.input_pattern = r'\w+|[^. \t]->\w*|\w+::\w*|\w\(\w*|\\\w*|\$\w*'
+        self.input_pattern = r'\w+|[^. \t]->\w*|\w+::\w*|\w\([\'"][^\)]*|\w\(\w*|\\\w*|\$\w*'
         self.current = vim.current
         self.vim = vim
 
@@ -39,9 +39,21 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        pattern = r'[\'"]\w*|\w*$'
-        m = re.search(pattern, context['input'])
-        return m.start() if m else -1
+        patterns = [r'[\'"][^\)]*', r'\w*$']
+        result = -1
+        result_end = -1
+        pos = -1
+        for pattern in patterns:
+            m = re.search(pattern, context['input'])
+            if m:
+                pos = m.start()
+                pos_end = m.end()
+            # match new pattern only if previous one ended before this one
+            if pos > result_end:
+                result = pos
+                result_end = pos_end
+
+        return result
 
     def gather_candidates(self, context):
         file_path = self.current.buffer.name
