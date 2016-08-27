@@ -8,55 +8,13 @@
 
 from .base import Base
 from os import path
-from urllib.parse import urlencode, urlparse, quote_plus
-from urllib.request import urlopen
 from urllib.error import URLError
+import sys
 import re
-import json
-import subprocess
 
+sys.path.insert(1, path.dirname(__file__) + '/deoplete_padawan')
 
-class Server:
-
-    def __init__(self, server_addr, server_command='padawan-server',
-                 padawan_path='/tmp'):
-        self.server_addr = server_addr
-        self.server_command = server_command
-        self.padawan_path = padawan_path
-
-    def start(self):
-        command = '{0} > {1}/logs/padawan-server.log'.format(
-            self.server_command,
-            self.padawan_path
-        )
-        subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT
-        )
-
-    def stop(self):
-        try:
-            self.sendRequest('kill', {})
-            return True
-        except Exception:
-            return False
-
-    def restart(self):
-        if self.stop():
-            self.start()
-
-    def sendRequest(self, command, params, data=''):
-        addr = self.server_addr + "/" + command + "?" + urlencode(params)
-        response = urlopen(
-            addr,
-            quote_plus(data).encode('utf8'),
-            3 # can be high as its async call after all
-        )
-        data = json.loads(response.read().decode('utf8'))
-
-        return data
+import padawan_server
 
 
 class Source(Base):
@@ -70,16 +28,15 @@ class Source(Base):
         self.rank = 500
         self.input_pattern = r'\w+|[^. \t]->\w*|\w+::\w*|\w\(\w*|\\\w*|\$\w*'
         self.current = vim.current
+        self.vim = vim
 
     def on_init(self, context):
-        vars = context['vars']
-        server_addr = vars.get('deoplete#sources#padawan#server_addr',
-                               'http://127.0.0.1:15155')
-        server_command = vars.get('deoplete#sources#padawan#server_command',
-                                  'padawan-server')
-        padawan_path = vars.get('deoplete#sources#padawan#padawan_path',
-                                '/tmp')
-        self.server = Server(server_addr, server_command, padawan_path)
+        server_addr = self.vim.eval('deoplete#sources#padawan#server_addr')
+        server_command = self.vim.eval('deoplete#sources#padawan#server_command')
+        log_file = self.vim.eval('deoplete#sources#padawan#log_file')
+
+        self.server = padawan_server.Server(server_addr, server_command,
+                                            log_file)
 
     def get_complete_position(self, context):
         pattern = r'\w*$'
