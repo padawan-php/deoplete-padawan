@@ -31,14 +31,71 @@ Plugin 'pbogut/deoplete-padawan'
 
 ## Configuration
 
-Plugin requires no configuration, however, it is possible to change some options.
+The plugin requires no configuration. However, it is possible to change some
+options.
 
-Comming soon(tm)
+### Available settings
+
+| Variable                                    | Default                 |
+|:--------------------------------------------|:------------------------|
+| g:deoplete#sources#padawan#server_addr      | http://127.0.0.1:15155  |
+| g:deoplete#sources#padawan#server_command   | padawan-server          |
+| g:deoplete#sources#padawan#log_file         | /tmp/padawan-server.log |
+| g:deoplete#sources#padawan#server_autostart | 1                       |
+
+- `g:deoplete#sources#padawan#server_addr`
+
+Address to padawan.php server. By default, it is `http://127.0.0.1:15155`
+
+- `g:deoplete#sources#padawan#server_command`
+
+If your padawan-server bin is not in $PATH then you can set up this
+to point it directly, ie: `/path/to/padawan/bin/padawan-server`.
+
+- `g:deoplete#sources#padawan#log_file`
+
+Padawan.php log file path, if empty log won't be stored anywhere. By default, it goes
+to `/tmp/padawan-server.log` unless you have no `/tmp` directory, in that case
+log won't be saved.
+
+- `g:deoplete#sources#padawan#server_autostart`
+
+The plugin will try to start padawan.php server automatically when completion is triggered.
+Any value but `1` will make this option disabled.
+
+## Additional commands
+
+By default, the plugin is not creating any vim commands. However, there are some
+functions available to manage the padawan.php server.
+
+- `call deoplete#sources#padawan#StartServer()`
+
+Will start padawan-server.
+
+- `call deoplete#sources#padawan#StopServer()`
+
+Will kill padawan-server.
+
+- `call deoplete#sources#padawan#RestartServer()`
+
+Will kill padawan-server and start it again.
+
+### Custom commands
+
+If you would like to have simpler commands, you can add them to your
+`vimrc` file. Snippet below shows how to add `StartPadawan`, `StopPadawan` and
+`RestartPadawan` commands.
+
+```vim
+command! StartPadawan call deoplete#sources#padawan#StartServer()
+command! StopPadawan call deoplete#sources#padawan#StopServer()
+command! RestartPadawan call deoplete#sources#padawan#RestartServer()
+```
 
 ## Todo
-- [ ] Update configuration section
+- [x] Update configuration section
+- [x] Provide actions to start and stop padawan.php server
 - [ ] Add Vim help file
-- [ ] Provide actions to start and stop padawan.php server
 
 ## Contribution
 
