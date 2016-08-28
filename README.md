@@ -36,12 +36,12 @@ options.
 
 ### Available settings
 
-| Variable                                    | Default                 |
-|:--------------------------------------------|:------------------------|
-| g:deoplete#sources#padawan#server_addr      | http://127.0.0.1:15155  |
-| g:deoplete#sources#padawan#server_command   | padawan-server          |
-| g:deoplete#sources#padawan#log_file         | /tmp/padawan-server.log |
-| g:deoplete#sources#padawan#server_autostart | 1                       |
+| Variable                                      | Default                   |
+|:----------------------------------------------|:--------------------------|
+| `g:deoplete#sources#padawan#server_addr`      | `http://127.0.0.1:15155`  |
+| `g:deoplete#sources#padawan#server_command`   | `padawan-server`          |
+| `g:deoplete#sources#padawan#log_file`         | `/tmp/padawan-server.log` |
+| `g:deoplete#sources#padawan#server_autostart` | `1`                       |
 
 - `g:deoplete#sources#padawan#server_addr`
 
