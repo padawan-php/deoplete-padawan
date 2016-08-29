@@ -9,6 +9,11 @@ Deoplete-padawan offers asynchronous completion of code written in PHP using
 
 It requires [neovim](https://github.com/neovim/neovim) as deoplete requires it.
 
+## Demo
+
+![demo](https://raw.githubusercontent.com/pbogut/deoplete-padawan/master/demo.gif)
+![demo2](https://raw.githubusercontent.com/pbogut/deoplete-padawan/master/demo2.gif)
+
 ## Installation
 
 You need to install [padawan.php](https://github.com/mkusher/padawan.php) and
