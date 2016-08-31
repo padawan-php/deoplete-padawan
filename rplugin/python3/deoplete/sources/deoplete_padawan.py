@@ -35,6 +35,7 @@ class Source(Base):
         server_addr = self.vim.eval('deoplete#sources#padawan#server_addr')
         server_command = self.vim.eval('deoplete#sources#padawan#server_command')
         log_file = self.vim.eval('deoplete#sources#padawan#log_file')
+        self.add_parentheses = self.vim.eval('deoplete#sources#padawan#add_parentheses')
 
         self.server = padawan_server.Server(server_addr, server_command,
                                             log_file)
@@ -78,7 +79,7 @@ class Source(Base):
             return candidates
 
         for item in result['completion']:
-            candidate = {'word': item['name'],
+            candidate = {'word': self.get_candidate_word(item),
                          'abbr': item['name'],
                          'kind': item['signature'],
                          'info': item['description'],
@@ -86,6 +87,17 @@ class Source(Base):
             candidates.append(candidate)
 
         return candidates
+
+    def get_candidate_word(self, item):
+        name = item['name']
+        if self.add_parentheses != 1:
+            return name
+        if item['signature'].find('()') == 0:
+            return name + '()'
+        if item['signature'].find('(') == 0:
+            return name + '('
+
+        return name
 
     def do_request(self, command, params, data=''):
         try:

@@ -17,6 +17,9 @@ let g:deoplete#sources#padawan#log_file =
 
 let g:deoplete#sources#padawan#server_autostart =
       \ get(g:, 'deoplete#sources#padawan#server_autostart', 1)
+let g:deoplete#sources#padawan#add_parentheses =
+      \ get(g:, 'deoplete#sources#padawan#add_parentheses', 0)
+
 
 python3 << PYTHON
 import vim

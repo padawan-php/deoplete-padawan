@@ -47,6 +47,7 @@ options.
 | `g:deoplete#sources#padawan#server_command`   | `padawan-server`          |
 | `g:deoplete#sources#padawan#log_file`         | `/tmp/padawan-server.log` |
 | `g:deoplete#sources#padawan#server_autostart` | `1`                       |
+| `g:deoplete#sources#padawan#add_parentheses`  | `0`                       |
 
 - `g:deoplete#sources#padawan#server_addr`
 
@@ -67,6 +68,11 @@ log won't be saved.
 
 The plugin will try to start padawan.php server automatically when completion is triggered.
 Any value but `1` will make this option disabled.
+
+- `g:deoplete#sources#padawan#add_parentheses`
+
+If set to `1` parentheses will be added to function (method) completion. If function
+accepts parameters, only opening parenthesis will be added.
 
 ## Additional commands
 
