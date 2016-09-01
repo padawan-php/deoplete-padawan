@@ -90,11 +90,14 @@ class Source(Base):
 
     def get_candidate_word(self, item):
         name = item['name']
+        signature = item['signature']
+        if not signature:
+            return name
         if self.add_parentheses != 1:
             return name
-        if item['signature'].find('()') == 0:
+        if signature.find('()') == 0:
             return name + '()'
-        if item['signature'].find('(') == 0:
+        if signature.find('(') == 0:
             return name + '('
 
         return name
