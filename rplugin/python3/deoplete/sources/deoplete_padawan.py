@@ -81,7 +81,7 @@ class Source(Base):
         for item in result['completion']:
             candidate = {'word': self.get_candidate_word(item),
                          'abbr': item['name'],
-                         'kind': item['signature'],
+                         'kind': self.get_candidate_signature(item),
                          'info': item['description'],
                          'dup': 1}
             candidates.append(candidate)
@@ -89,10 +89,8 @@ class Source(Base):
         return candidates
 
     def get_candidate_word(self, item):
+        signature = self.get_candidate_signature(item)
         name = item['name']
-        signature = item['signature']
-        if not signature:
-            return name
         if self.add_parentheses != 1:
             return name
         if signature.find('()') == 0:
@@ -101,6 +99,13 @@ class Source(Base):
             return name + '('
 
         return name
+
+    def get_candidate_signature(self, item):
+        signature = item['signature']
+        if not signature:
+            signature = ''
+
+        return signature
 
     def do_request(self, command, params, data=''):
         try:
