@@ -113,6 +113,8 @@ class Source(Base):
                 self.vim.command("echom 'Padawan.php is not running'")
         except timeout:
             self.vim.command("echom 'Connection to padawan.php timed out'")
+        except ValueError as error:
+            self.vim.command("echom 'Padawan.php error: {}'".format(error))
         # any other error can bouble to deoplete
         return False
 
