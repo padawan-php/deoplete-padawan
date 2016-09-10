@@ -5,7 +5,7 @@
 #=============================================================================
 from os import path
 from urllib.parse import urlencode, quote_plus
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 import json
 import subprocess
 
@@ -48,11 +48,14 @@ class Server:
 
     def sendRequest(self, command, params, data=''):
         addr = self.server_addr + "/" + command + "?" + urlencode(params)
+        request = Request(addr, headers={
+            "Content-Type": "plain/text"
+        }, data = quote_plus(data).encode('utf8'))
         response = urlopen(
-            addr,
-            quote_plus(data).encode('utf8'),
-            3  # can be high as its async call after all
+            request,
+            timeout=3
         )
         data = json.loads(response.read().decode('utf8'))
-
+        if "error" in data:
+            raise ValueError(data["error"])
         return data
