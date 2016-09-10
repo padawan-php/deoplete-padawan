@@ -108,11 +108,11 @@ class Source(Base):
         except URLError:
             if self.vim.eval('deoplete#sources#padawan#server_autostart') == 1:
                 self.server.start()
-                self.vim.command("echo 'Padawan.php server started automatically'")
+                self.vim.command("echom 'Padawan.php server started automatically'")
             else:
-                self.vim.command("echo 'Padawan.php is not running'")
+                self.vim.command("echom 'Padawan.php is not running'")
         except timeout:
-                self.vim.command("echo 'Connection to padawan.php timed out'")
+            self.vim.command("echom 'Connection to padawan.php timed out'")
         # any other error can bouble to deoplete
         return False
 
