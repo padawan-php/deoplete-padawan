@@ -11,4 +11,4 @@ install:
 
 script:
   - flake8 -v
-  - nosetest -v
+  - nosetests -v
