@@ -1,10 +1,10 @@
-#=============================================================================
+# =============================================================================
 # FILE: deoplete_padawan.py
 # AUTHOR: Pawel Bogut
 # Based on:
 #   https://github.com/mkusher/padawan.vim
 #   https://github.com/zchee/deoplete-jedi
-#=============================================================================
+# =============================================================================
 
 from .base import Base
 from os import path
@@ -15,7 +15,7 @@ import re
 
 sys.path.insert(1, path.dirname(__file__) + '/deoplete_padawan')
 
-import padawan_server
+import padawan_server  # noqa
 
 
 class Source(Base):
@@ -27,15 +27,20 @@ class Source(Base):
         self.mark = '[padawan]'
         self.filetypes = ['php']
         self.rank = 500
-        self.input_pattern = r'\w+|[^. \t]->\w*|\w+::\w*|\w\([\'"][^\)]*|\w\(\w*|\\\w*|\$\w*'
+        self.input_pattern = r'\w+|[^. \t]->\w*|\w+::\w*|' \
+                             r'\w\([\'"][^\)]*|\w\(\w*|\\\w*|\$\w*'
         self.current = vim.current
         self.vim = vim
 
     def on_init(self, context):
-        server_addr = self.vim.eval('deoplete#sources#padawan#server_addr')
-        server_command = self.vim.eval('deoplete#sources#padawan#server_command')
-        log_file = self.vim.eval('deoplete#sources#padawan#log_file')
-        self.add_parentheses = self.vim.eval('deoplete#sources#padawan#add_parentheses')
+        server_addr = self.vim.eval(
+            'deoplete#sources#padawan#server_addr')
+        server_command = self.vim.eval(
+            'deoplete#sources#padawan#server_command')
+        log_file = self.vim.eval(
+            'deoplete#sources#padawan#log_file')
+        self.add_parentheses = self.vim.eval(
+            'deoplete#sources#padawan#add_parentheses')
 
         self.server = padawan_server.Server(server_addr, server_command,
                                             log_file)
@@ -75,7 +80,7 @@ class Source(Base):
 
         candidates = []
 
-        if not result or not 'completion' in result:
+        if not result or 'completion' not in result:
             return candidates
 
         for item in result['completion']:
@@ -113,7 +118,8 @@ class Source(Base):
         except URLError:
             if self.vim.eval('deoplete#sources#padawan#server_autostart') == 1:
                 self.server.start()
-                self.vim.command("echom 'Padawan.php server started automatically'")
+                self.vim.command(
+                    "echom 'Padawan.php server started automatically'")
             else:
                 self.vim.command("echom 'Padawan.php is not running'")
         except timeout:
