@@ -1,8 +1,8 @@
-#=============================================================================
+# =============================================================================
 # FILE: deoplete_padawan.py
 # AUTHOR: Pawel Bogut
 #   https://github.com/mkusher/padawan.vim
-#=============================================================================
+# =============================================================================
 from os import path
 from urllib.parse import urlencode, quote_plus
 from urllib.request import Request, urlopen
@@ -50,7 +50,7 @@ class Server:
         addr = self.server_addr + "/" + command + "?" + urlencode(params)
         request = Request(addr, headers={
             "Content-Type": "plain/text"
-        }, data = quote_plus(data).encode('utf8'))
+        }, data=quote_plus(data).encode('utf8'))
         response = urlopen(
             request,
             timeout=3
