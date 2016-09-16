@@ -1,5 +1,6 @@
 # deoplete-padawan
 
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/pbogut/deoplete-padawan.svg?branch=master)](https://travis-ci.org/pbogut/deoplete-padawan)
 [![Join the chat at https://gitter.im/pbogut/deoplete-padawan](https://badges.gitter.im/pbogut/deoplete-padawan.svg)](https://gitter.im/pbogut/deoplete-padawan?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
