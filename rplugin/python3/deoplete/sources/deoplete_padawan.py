@@ -46,7 +46,7 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        patterns = [r'[\'"][^\)]*', r'\w*$']
+        patterns = [r'[\'"][^\)]*', r'\b[\w\\]*$']
         result = -1
         result_end = -1
         pos = -1
