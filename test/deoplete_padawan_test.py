@@ -90,3 +90,21 @@ class SourceTest(unittest.TestCase):
             {'input': '      new \Date'})
         #             '0....5....0^ <- 11
         self.assertEqual(position, 11)
+
+    def test_get_complete_for_built_in_functions(self):
+        position = self.source.get_complete_position(
+            {'input': '  array_something'})
+        #             '0.^ <- 2
+        self.assertEqual(position, 2)
+
+    def test_get_complete_for_built_in_functions_on_assigment(self):
+        position = self.source.get_complete_position(
+            {'input': ' $a=array_'})
+        #             '0...^ <- 4
+        self.assertEqual(position, 4)
+
+    def test_get_complete_for_built_in_functions_when_at_beginning(self):
+        position = self.source.get_complete_position(
+            {'input': 'array_something'})
+        #             '^ <- 0
+        self.assertEqual(position, 0)
