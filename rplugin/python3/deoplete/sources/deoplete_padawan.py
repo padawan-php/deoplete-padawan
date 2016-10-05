@@ -85,7 +85,7 @@ class Source(Base):
 
         for item in result['completion']:
             candidate = {'word': self.get_candidate_word(item),
-                         'abbr': item['name'],
+                         'abbr': self.get_candidate_abbr(item),
                          'kind': self.get_candidate_signature(item),
                          'info': item['description'],
                          'dup': 1}
@@ -93,9 +93,17 @@ class Source(Base):
 
         return candidates
 
+    def get_candidate_abbr(self, item):
+        if 'menu' in item and item['menu']:
+            abbr = item['menu']
+        else:
+            abbr = item['name']
+
+        return abbr
+
     def get_candidate_word(self, item):
         signature = self.get_candidate_signature(item)
-        name = item['name']
+        name = self.get_candidate_abbr(item)
         if self.add_parentheses != 1:
             return name
         if signature.find('()') == 0:
