@@ -46,7 +46,16 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        patterns = [r'[\'"][^\)]*', r'\b[\w\\]*$']
+        patterns = [r'[\'"][^\)]*$', r'\b[\w\\]*$']
+        return self.get_patterns_position(context, patterns)
+
+    def get_padawan_column(self, context):
+        patterns = [r'(?<=^\w)$', r'(?<=^\w)\w+$',
+                    r'(?<=[\s=]\w)\w+$',
+                    r'[\'"][^\)]*$', r'\b[\w\\]*$']
+        return self.get_patterns_position(context, patterns) + 1
+
+    def get_patterns_position(self, context, patterns):
         result = -1
         result_end = -1
         pos = -1
@@ -67,7 +76,8 @@ class Source(Base):
         current_path = self.get_project_root(file_path)
 
         [line_num, _] = self.current.window.cursor
-        column_num = context['complete_position'] + 1
+        column_num = self.get_padawan_column(context)
+
         contents = "\n".join(self.current.buffer)
 
         params = {
