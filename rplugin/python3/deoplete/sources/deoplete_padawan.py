@@ -46,7 +46,21 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        patterns = [r'[\'"][^\)]*', r'\b[\w\\]*$']
+        patterns = [r'[\'"][^\)]*$', r'[\w\\]*$']
+        input = context['input']
+        pos = self.get_patterns_position(context, patterns)
+        if pos in range(len(input)) and input[pos] == '\\':
+            pos = pos + 1
+        return pos
+
+    def get_padawan_column(self, context):
+        patterns = [r'(?<=[\s\(\=])\w+$|^\w+$']
+        pos = self.get_patterns_position(context, patterns)
+        if pos == context['complete_position']:
+            return pos + 2
+        return context['complete_position'] + 1
+
+    def get_patterns_position(self, context, patterns):
         result = -1
         result_end = -1
         pos = -1
@@ -67,7 +81,8 @@ class Source(Base):
         current_path = self.get_project_root(file_path)
 
         [line_num, _] = self.current.window.cursor
-        column_num = context['complete_position'] + 1
+        column_num = self.get_padawan_column(context)
+
         contents = "\n".join(self.current.buffer)
 
         params = {
@@ -85,7 +100,7 @@ class Source(Base):
 
         for item in result['completion']:
             candidate = {'word': self.get_candidate_word(item),
-                         'abbr': item['name'],
+                         'abbr': self.get_candidate_abbr(item),
                          'kind': self.get_candidate_signature(item),
                          'info': item['description'],
                          'dup': 1}
@@ -93,9 +108,17 @@ class Source(Base):
 
         return candidates
 
+    def get_candidate_abbr(self, item):
+        if 'menu' in item and item['menu']:
+            abbr = item['menu']
+        else:
+            abbr = item['name']
+
+        return abbr
+
     def get_candidate_word(self, item):
         signature = self.get_candidate_signature(item)
-        name = item['name']
+        name = self.get_candidate_abbr(item)
         if self.add_parentheses != 1:
             return name
         if signature.find('()') == 0:

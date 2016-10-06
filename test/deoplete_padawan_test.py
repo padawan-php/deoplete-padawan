@@ -13,80 +13,217 @@ class SourceTest(unittest.TestCase):
     def setUp(self):
         self.source = deoplete_padawan.Source(Mock())
 
+    # get_complete_position returns column number
+    # for deoplete. Its starting from 0
+
     def test_get_complete_position_for_method_call(self):
         position = self.source.get_complete_position(
             {'input': '  $this->getSome'})
-        #             '0....5...^ <- 9
+        # deoplete    '0....5...^ <- 9
         self.assertEqual(position, 9)
 
     def test_get_complete_position_for_variable(self):
         position = self.source.get_complete_position(
             {'input': '  $var'})
-        #             '0..^ <- 3
+        # deoplete    '0..^ <- 3
         self.assertEqual(position, 3)
 
     def test_get_complete_position_for_method_param(self):
         position = self.source.get_complete_position(
             {'input': 'callWithParams("Hell'})
-        #             '0....5....0....^ <- 15
+        # deoplete    '0....5....0....^ <- 15
         self.assertEqual(position, 15)
 
     def test_get_complete_position_for_method_variable_param(self):
         position = self.source.get_complete_position(
             {'input': '          set($var'})
-        #             '0....5....0....^ <- 15
+        # deoplete    '0....5....0....^ <- 15
         self.assertEqual(position, 15)
 
     def test_get_complete_position_for_method_static_call_param(self):
         position = self.source.get_complete_position(
             {'input': '   call(self::getVa'})
-        #             '0....5....0...^ <- 14
+        # deoplete    '0....5....0...^ <- 14
         self.assertEqual(position, 14)
 
     def test_get_complete_position_for_static_method_call(self):
         position = self.source.get_complete_position(
             {'input': '     Class::getInst'})
-        #             '0....5....0.^ <- 12
+        # deoplete    '0....5....0.^ <- 12
         self.assertEqual(position, 12)
 
     def test_get_complete_position_for_static_method_call_w_namespace(self):
         position = self.source.get_complete_position(
             {'input': '     \Some\Class::getInst'})
-        #             '0....5....0....5..^ <- 18
+        # deoplete    '0....5....0....5..^ <- 18
         self.assertEqual(position, 18)
 
     def test_get_complete_position_for_fluent_method_calls(self):
         position = self.source.get_complete_position(
             {'input': '$db->select("*")->from("table")->whe'})
-        #             '0....5....0....5....0....5....0..^ <- 33
+        # deoplete    '0....5....0....5....0....5....0..^ <- 33
         self.assertEqual(position, 33)
 
     def test_get_complete_position_for_use_statement(self):
         position = self.source.get_complete_position(
             {'input': '  use Class\\'})
-        #             '0....5^ <- 6
+        # deoplete    '0....5^ <- 6
         self.assertEqual(position, 6)
 
     def test_get_complete_position_for_long_use_statement(self):
         position = self.source.get_complete_position(
             {'input': '   use Class\With\Lon'})
-        #             '0....5.^ <- 7
+        # deoplete    '0....5.^ <- 7
         self.assertEqual(position, 7)
 
     def test_get_complete_position_for_new_statement(self):
         position = self.source.get_complete_position(
             {'input': ' $ala = new Class\\'})
-        #             '0....5....0.^ <- 12
+        # deoplete    '0....5....0.^ <- 12
         self.assertEqual(position, 12)
 
     def test_get_complete_position_for_long_new_statement(self):
         position = self.source.get_complete_position(
             {'input': ' $x = new Class\With\Ver'})
-        #             '0....5....^ <- 10
+        # deoplete    '0....5....^ <- 10
         self.assertEqual(position, 10)
 
     def test_get_complete_position_for_new_with_root_namespace(self):
         position = self.source.get_complete_position(
             {'input': '      new \Date'})
-        #             '0....5....0^ <- 11
+        # deoplete    '0....5....0^ <- 11
         self.assertEqual(position, 11)
+
+    def test_get_complete_for_built_in_functions(self):
+        position = self.source.get_complete_position(
+            {'input': '  array_something'})
+        # deoplete    '0.^ <- 2
+        self.assertEqual(position, 2)
+
+    def test_get_complete_for_built_in_functions_on_assigment(self):
+        position = self.source.get_complete_position(
+            {'input': ' $a=array_'})
+        # deoplete    '0...^ <- 4
+        self.assertEqual(position, 4)
+
+    def test_get_complete_for_built_in_functions_when_at_beginning(self):
+        position = self.source.get_complete_position(
+            {'input': 'array_something'})
+        # deoplete    '^ <- 0
+        self.assertEqual(position, 0)
+
+    # get_padawan_column returns column number
+    # for padawan.php. Its starting from 1
+
+    def test_get_padawan_column_for_method_call(self):
+        column = self.source.get_padawan_column(
+            {'input': '  $this->getSome', 'complete_position': 9})
+        # deoplete    '0....5...^ <- 9
+        # padawan     '1...5....^ <- 10
+        self.assertEqual(column, 10)
+
+    def test_get_padawan_column_for_variable(self):
+        column = self.source.get_padawan_column(
+            {'input': '  $var', 'complete_position': 3})
+        # deoplete    '0..^ <- 3
+        # padawan     '1..^ <- 4
+        self.assertEqual(column, 4)
+
+    def test_get_padawan_column_for_method_param(self):
+        column = self.source.get_padawan_column(
+            {'input': 'callWithParams("Hell', 'complete_position': 15})
+        # deoplete    '0....5....0....^ <- 15
+        # padawan     '1...5....0....5^ <- 16
+        self.assertEqual(column, 16)
+
+    def test_get_padawan_column_for_method_variable_param(self):
+        column = self.source.get_padawan_column(
+            {'input': '          set($var', 'complete_position': 15})
+        # deoplete    '0....5....0....^ <- 15
+        # padawan     '1...5....0....5^ <- 16
+        self.assertEqual(column, 16)
+
+    def test_get_padawan_column_for_method_static_call_param(self):
+        column = self.source.get_padawan_column(
+            {'input': '   call(self::getVa', 'complete_position': 14})
+        # deoplete    '0....5....0...^ <- 14
+        # padawan     '1...5....0....^ <- 15
+        self.assertEqual(column, 15)
+
+    def test_get_padawan_column_for_static_method_call(self):
+        column = self.source.get_padawan_column(
+            {'input': '     Class::getInst', 'complete_position': 12})
+        # deoplete    '0....5....0.^ <- 12
+        # padawan     '1...5....0..^ <- 13
+        self.assertEqual(column, 13)
+
+    def test_get_padawan_column_for_static_method_call_w_namespace(self):
+        column = self.source.get_padawan_column(
+            {'input': '     \Some\Class::getInst', 'complete_position': 18})
+        # deoplete    '0....5....0....5..^ <- 18
+        # padawan     '1...5....0....5...^ <- 19
+        self.assertEqual(column, 19)
+
+    def test_get_padawan_column_for_fluent_method_calls(self):
+        column = self.source.get_padawan_column(
+            {'input': '$db->select("*")->from("table")->whe',
+             'complete_position': 33})
+        # deoplete    '0....5....0....5....0....5....0..^ <- 33
+        # padawan     '1...5....0....5....0....5....0...^ <- 34
+        self.assertEqual(column, 34)
+
+    def test_get_padawan_column_for_use_statement(self):
+        column = self.source.get_padawan_column(
+            {'input': '  use Class\\', 'complete_position': 6})
+        # deoplete    '0....5^ <- 6
+        # padawan     '1...5.^ <- 7
+        self.assertEqual(column, 7)
+
+    def test_get_padawan_column_for_long_use_statement(self):
+        column = self.source.get_padawan_column(
+            {'input': '   use Class\With\Lon', 'complete_position': 7})
+        # deoplete    '0....5.^ <- 7
+        # padawan     '1...5..^ <- 8
+        self.assertEqual(column, 8)
+
+    def test_get_padawan_column_for_new_statement(self):
+        column = self.source.get_padawan_column(
+            {'input': ' $ala = new Class\\', 'complete_position': 12})
+        # deoplete    '0....5....0.^ <- 12
+        # padawan     '1...5....0..^ <- 13
+        self.assertEqual(column, 13)
+
+    def test_get_padawan_column_for_long_new_statement(self):
+        column = self.source.get_padawan_column(
+            {'input': ' $x = new Class\With\Ver', 'complete_position': 10})
+        # deoplete    '0....5....^ <- 10
+        # padawan     '1...5....0^ <- 11
+        self.assertEqual(column, 11)
+
+    def test_get_padawan_column_for_new_with_root_namespace(self):
+        column = self.source.get_padawan_column(
+            {'input': '      new \Date', 'complete_position': 11})
+        # deoplete    '0....5....0^ <- 11
+        # padawan      1...5....0.^ <- 12
+        self.assertEqual(column, 12)
+
+    def test_get_padawan_col_for_built_in_functions(self):
+        column = self.source.get_padawan_column(
+            {'input': '  array_something', 'complete_position': 2})
+        # deoplete    '0.^ <- 2
+        # padawan      1..^ <- 4
+        self.assertEqual(column, 4)
+
+    def test_get_padawan_col_for_built_in_functions_on_assigment(self):
+        column = self.source.get_padawan_column(
+            {'input': ' $a=array_', 'complete_position': 4})
+        # deoplete     0...^ <- 4
+        # padawan      1...5^ <- 6
+        self.assertEqual(column, 6)
+
+    def test_get_padawan_col_for_built_in_functions_when_at_beginning(self):
+        column = self.source.get_padawan_column(
+            {'input': 'array_something', 'complete_position': 0})
+        # deoplete    '^ <- 0
+        # padawan      1^ <- 2
+        self.assertEqual(column, 2)
