@@ -46,14 +46,19 @@ class Source(Base):
                                             log_file)
 
     def get_complete_position(self, context):
-        patterns = [r'[\'"][^\)]*$', r'\b[\w\\]*$']
-        return self.get_patterns_position(context, patterns)
+        patterns = [r'[\'"][^\)]*$', r'[\w\\]*$']
+        input = context['input']
+        pos = self.get_patterns_position(context, patterns)
+        if pos in range(len(input)) and input[pos] == '\\':
+            pos = pos + 1
+        return pos
 
     def get_padawan_column(self, context):
-        patterns = [r'(?<=^\w)$', r'(?<=^\w)\w+$',
-                    r'(?<=[\s=]\w)\w+$',
-                    r'[\'"][^\)]*$', r'\b[\w\\]*$']
-        return self.get_patterns_position(context, patterns) + 1
+        patterns = [r'(?<=[\s\(\=])\w+$|^\w+$']
+        pos = self.get_patterns_position(context, patterns)
+        if pos == context['complete_position']:
+            return pos + 2
+        return context['complete_position'] + 1
 
     def get_patterns_position(self, context, patterns):
         result = -1
