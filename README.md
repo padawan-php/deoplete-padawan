@@ -1,8 +1,7 @@
 # deoplete-padawan
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.org/pbogut/deoplete-padawan.svg?branch=master)](https://travis-ci.org/pbogut/deoplete-padawan)
-[![Join the chat at https://gitter.im/pbogut/deoplete-padawan](https://badges.gitter.im/pbogut/deoplete-padawan.svg)](https://gitter.im/pbogut/deoplete-padawan?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/padawan-php/deoplete-padawan.svg?branch=master)](https://travis-ci.org/padawan-php/deoplete-padawan)
 
 [deoplete.nvim](https://github.com/Shougo/deoplete.nvim) source for
 [padawan.php](https://github.com/mkusher/padawan.php).
@@ -15,8 +14,8 @@ It requires [neovim](https://github.com/neovim/neovim) as deoplete requires it.
 
 ## Demo
 
-![demo](https://raw.githubusercontent.com/pbogut/deoplete-padawan/master/demo.gif)
-![demo2](https://raw.githubusercontent.com/pbogut/deoplete-padawan/master/demo2.gif)
+![demo](https://raw.githubusercontent.com/padawan-php/deoplete-padawan/master/demo.gif)
+![demo2](https://raw.githubusercontent.com/padawan-php/deoplete-padawan/master/demo2.gif)
 
 ## Installation
 
@@ -28,14 +27,14 @@ Using [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
 Plug 'Shougo/deoplete.nvim'
 
-Plug 'pbogut/deoplete-padawan'
+Plug 'padawan-php/deoplete-padawan'
 ```
 
 Using [Vundle](https://github.com/VundleVim/Vundle.vim):
 ```vim
 Plugin 'Shougo/deoplete.nvim'
 
-Plugin 'pbogut/deoplete-padawan'
+Plugin 'padawan-php/deoplete-padawan'
 ```
 
 ## Configuration
