@@ -19,7 +19,8 @@ let g:deoplete#sources#padawan#server_autostart =
       \ get(g:, 'deoplete#sources#padawan#server_autostart', 1)
 let g:deoplete#sources#padawan#add_parentheses =
       \ get(g:, 'deoplete#sources#padawan#add_parentheses', 0)
-
+let g:deoplete#sources#padawan#auto_update =
+      \ get(g:, 'deoplete#sources#padawan#auto_update', 0)
 
 python3 << PYTHON
 import vim
