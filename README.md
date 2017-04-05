@@ -51,6 +51,7 @@ options.
 | `g:deoplete#sources#padawan#log_file`         | `/tmp/padawan-server.log` |
 | `g:deoplete#sources#padawan#server_autostart` | `1`                       |
 | `g:deoplete#sources#padawan#add_parentheses`  | `0`                       |
+| `g:deoplete#sources#padawan#auto_update`      | `0`                       |
 
 - `g:deoplete#sources#padawan#server_addr`
 
@@ -76,6 +77,9 @@ Any value but `1` will make this option disabled.
 
 If set to `1` parentheses will be added to function (method) completion. If function
 accepts parameters, only opening parenthesis will be added.
+
+- `g:deoplete#sources#padawan#auto_update`
+If set to `1` send `update` command to server automatically when `BufWritePost` event is triggered.
 
 ## Additional commands
 

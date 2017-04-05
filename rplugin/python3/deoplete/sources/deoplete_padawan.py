@@ -41,9 +41,20 @@ class Source(Base):
             'deoplete#sources#padawan#log_file')
         self.add_parentheses = self.vim.eval(
             'deoplete#sources#padawan#add_parentheses')
+        self.auto_update = self.vim.eval(
+            'deoplete#sources#padawan#auto_update')
 
         self.server = padawan_server.Server(server_addr, server_command,
                                             log_file)
+
+    def on_event(self, context):
+        if (context['event'] == 'BufWritePost' and self.auto_update == 1):
+            file_path = self.current.buffer.name
+            current_path = self.get_project_root(file_path)
+            params = {
+                'path': current_path
+            }
+            self.do_request('update', params)
 
     def get_complete_position(self, context):
         patterns = [r'[\'"][^\)]*$', r'[\w\\]*$']
