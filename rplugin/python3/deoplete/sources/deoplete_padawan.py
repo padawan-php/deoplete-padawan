@@ -120,7 +120,10 @@ class Source(Base):
         return candidates
 
     def get_candidate_info(self, item):
-        return self.get_candidate_abbr(item) + self.get_candidate_signature(item)
+        abbr = self.get_candidate_abbr(item)
+        signature = self.get_candidate_signature(item)
+
+        return abbr + signature
 
     def get_candidate_abbr(self, item):
         if 'menu' in item and item['menu']:
