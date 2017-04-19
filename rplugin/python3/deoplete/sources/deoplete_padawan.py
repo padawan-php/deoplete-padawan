@@ -113,11 +113,14 @@ class Source(Base):
             candidate = {'word': self.get_candidate_word(item),
                          'abbr': self.get_candidate_abbr(item),
                          'kind': self.get_candidate_signature(item),
-                         'info': item['description'],
+                         'info': self.get_candidate_info(item),
                          'dup': 1}
             candidates.append(candidate)
 
         return candidates
+
+    def get_candidate_info(self, item):
+        return self.get_candidate_abbr(item) + self.get_candidate_signature(item)
 
     def get_candidate_abbr(self, item):
         if 'menu' in item and item['menu']:
