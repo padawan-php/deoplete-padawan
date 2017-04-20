@@ -110,6 +110,28 @@ command! StopPadawan call deoplete#sources#padawan#StopServer()
 command! RestartPadawan call deoplete#sources#padawan#RestartServer()
 ```
 
+## Compatibility with other plugins
+
+### echodoc.vim
+
+This plugin is compatible with [echodoc.vim](https://github.com/Shougo/echodoc.vim).
+
+**Note**: If you change `g:deoplete#sources#padawan#add_parentheses` from default `0` to `1`, you have to add `$` to deoplete's `skip_chars`.
+Otherwise the popup menu which is triggered after you type `$` will disable echodoc's functionality.
+
+Examples of working setups:
+
+```vim
+let g:deoplete#sources#padawan#add_parentheses = 0
+```
+
+or
+
+```vim
+let g:deoplete#sources#padawan#add_parentheses = 1
+let g:deoplete#skip_chars = ['$']
+```
+
 ## Todo
 - [x] Update configuration section
 - [x] Provide actions to start and stop padawan.php server
