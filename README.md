@@ -21,13 +21,24 @@ It requires [neovim](https://github.com/neovim/neovim) as deoplete requires it.
 
 You need to install [padawan.php](https://github.com/mkusher/padawan.php) and
 index your project. The plugin requires padawan.php server running to work.
-Go to project GitHub page for details.
+
+To install server within the plugin directory you can run
+```
+`:call deoplete#sources#padawan#InstallServer()`
+```
+It will install the padawan.php server in the plugin directory.
+To update server run
+```
+`:call deoplete#sources#padawan#UpdateServer()`
+```
+Composer needs to be in your system path in order to install or update server.
+
 
 Using [vim-plug](https://github.com/junegunn/vim-plug):
 ```vim
 Plug 'Shougo/deoplete.nvim'
 
-Plug 'padawan-php/deoplete-padawan'
+Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 ```
 
 Using [Vundle](https://github.com/VundleVim/Vundle.vim):
@@ -48,6 +59,7 @@ options.
 |:----------------------------------------------|:--------------------------|
 | `g:deoplete#sources#padawan#server_addr`      | `http://127.0.0.1:15155`  |
 | `g:deoplete#sources#padawan#server_command`   | `padawan-server`          |
+| `g:deoplete#sources#padawan#composer_command` | `composer`                |
 | `g:deoplete#sources#padawan#log_file`         | `/tmp/padawan-server.log` |
 | `g:deoplete#sources#padawan#server_autostart` | `1`                       |
 | `g:deoplete#sources#padawan#add_parentheses`  | `0`                       |
@@ -61,6 +73,12 @@ Address to padawan.php server. By default, it is `http://127.0.0.1:15155`
 
 If your padawan-server bin is not in $PATH then you can set up this
 to point it directly, ie: `/path/to/padawan/bin/padawan-server`.
+
+- `g:deoplete#sources#padawan#composer_command`
+
+Composer is used to install and update the padawan.php server in the plugin
+directory.  If `composer` is not in your system path you can set full command
+directly, ie: `php ~/bin/composer.phar`.
 
 - `g:deoplete#sources#padawan#log_file`
 
@@ -98,16 +116,32 @@ Will kill padawan-server.
 
 Will kill padawan-server and start it again.
 
+- `call deoplete#sources#padawan#InstallServer()`
+
+Will install padawan.php server.
+
+- `call deoplete#sources#padawan#UpdateServer()`
+
+Will update padawan.php server.
+
+- `call deoplete#sources#padawan#Generate()`
+
+Will generate index file for current project. Command will run as neovim job,
+if you would like to see the output you can pass 1 as an argument to this
+function.
+
 ### Custom commands
 
 If you would like to have simpler commands, you can add them to your
-`vimrc` file. Snippet below shows how to add `StartPadawan`, `StopPadawan` and
-`RestartPadawan` commands.
+`vimrc` file. Snippet below shows how to add commands.
 
 ```vim
-command! StartPadawan call deoplete#sources#padawan#StartServer()
-command! StopPadawan call deoplete#sources#padawan#StopServer()
-command! RestartPadawan call deoplete#sources#padawan#RestartServer()
+command! PadawanStart call deoplete#sources#padawan#StartServer()
+command! PadawanStop call deoplete#sources#padawan#StopServer()
+command! PadawanRestart call deoplete#sources#padawan#RestartServer()
+command! PadawanInstall call deoplete#sources#padawan#InstallServer()
+command! PadawanUpdate call deoplete#sources#padawan#UpdatePadawan()
+command! -bang PadawanGenerate call deoplete#sources#padawan#Generate(<bang>0)
 ```
 
 ## Compatibility with other plugins
