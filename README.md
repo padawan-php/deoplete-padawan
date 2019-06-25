@@ -1,6 +1,6 @@
 # deoplete-padawan
 
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![Project Status: Unsupported – The project has reached a stable, usable state but the author(s) have ceased all work on it. A new maintainer may be desired.](https://www.repostatus.org/badges/latest/unsupported.svg)](https://www.repostatus.org/#unsupported)
 [![Build Status](https://travis-ci.org/padawan-php/deoplete-padawan.svg?branch=master)](https://travis-ci.org/padawan-php/deoplete-padawan)
 
 [deoplete.nvim](https://github.com/Shougo/deoplete.nvim) source for
